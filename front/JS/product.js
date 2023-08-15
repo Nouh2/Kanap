@@ -1,12 +1,13 @@
 var str = window.location.href;
 var url = new URL(str);
 var id = url.searchParams.get("id");
-console.log(id);
+//console.log(id);
 
-const item_img = document.querySelector(".item_img");
+var apiURL = "http://localhost:3000/api/products/" + id;
+console.log(apiURL);
 
-const image = document.createElement("img");
-image.src = id.imageURL;
-item_img.appendChild(image);
-
-
+fetch(apiURL)
+    .then((response) => {
+        response.json()
+    })
+    .then(data => console.log(data))

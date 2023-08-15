@@ -1,8 +1,7 @@
 const callApi = fetch ("http://localhost:3000/api/products/")
 callApi.then(response => response.json())
-.then(product => {
-    for( var i = 0; i < product.length; i++){
-        const { name, _id, imageUrl ,alttxt, description } = product[i]
+.then(products => {
+    for( const { name, _id, imageUrl, alttxt, description } of products ){
         // console.log(description);
         
         const a = document.createElement("a");
