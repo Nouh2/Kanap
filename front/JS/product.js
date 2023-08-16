@@ -5,10 +5,18 @@ var id = url.searchParams.get("id");
 //console.log(id);
 // construction du chemin qui mène aux éléments spécifique à chaque produit
 var apiURL = "http://localhost:3000/api/products/" + id;
-console.log(apiURL);
+//console.log(apiURL);
 // récupération des éléments des produits via l'api
 fetch(apiURL)
-    .then((response) => {
-        response.json()
+    .then((response) => response.json())
+    .then(data => {
+    
+    const item = document.querySelector(".item");
+    item.querySelector(".item__img").insertAdjacentHTML("afterbegin", `<img src="${data.imageUrl}" alt="Photographie d'un canapé ${data.name}">`);
+    item.querySelector("#title").insertAdjacentHTML("afterbegin", data.name);
+    item.querySelector("#price").insertAdjacentHTML("afterbegin", data.price);
+    item.querySelector("#description").insertAdjacentHTML("afterbegin", data.description);
+
+    
     })
-    .then(data => console.log(data))
+
