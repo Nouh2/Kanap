@@ -17,7 +17,9 @@ fetch(apiURL)
     item.querySelector("#price").insertAdjacentHTML("afterbegin", data.price);
     item.querySelector("#description").insertAdjacentHTML("afterbegin", data.description);
     item.querySelector("#colors").insertAdjacentHTML("beforeend", data.colors.map(colors => `<option value ="${colors}">${colors}</option>`).join(''));
-    
-    
-    })
+    //stockage du choix du client
+    localStorage.setItem("product", id);
+    localStorage.setItem("color", colors);
+    localStorage.setItem("quantity", itemQuantity);
+})
 
