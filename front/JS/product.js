@@ -1,10 +1,10 @@
 // récupération de l'id dans l'url
-var str = window.location.href;
-var url = new URL(str);
-var id = url.searchParams.get("id");
+const str = window.location.href;
+const url = new URL(str);
+const id = url.searchParams.get("id");
 //console.log(id);
 // construction du chemin qui mène aux éléments spécifique à chaque produit
-var apiURL = "http://localhost:3000/api/products/" + id;
+const apiURL = "http://localhost:3000/api/products/" + id;
 //console.log(apiURL);
 // récupération des éléments des produits via l'api
 fetch(apiURL)
@@ -16,7 +16,8 @@ fetch(apiURL)
     item.querySelector("#title").insertAdjacentHTML("afterbegin", data.name);
     item.querySelector("#price").insertAdjacentHTML("afterbegin", data.price);
     item.querySelector("#description").insertAdjacentHTML("afterbegin", data.description);
-
+    item.querySelector("#colors").insertAdjacentHTML("beforeend", data.colors.map(colors => `<option value ="${colors}">${colors}</option>`).join(''));
+    
     
     })
 
