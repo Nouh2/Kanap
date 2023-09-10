@@ -41,7 +41,7 @@ function saveCart(cart){
         let cart = getCart();
         let checkItemInCart = cart.find(p => p.id === product._id && p.colors === product.colors);
         if(checkItemInCart != undefined){
-            changeQuantity;
+            changeQuantity(checkItemInCart, document.querySelector("#quantity").value);
         }else{
             cart.push({
                 id: product._id,
@@ -53,11 +53,7 @@ function saveCart(cart){
     }
 
     function changeQuantity(product, quantity) {
-        let cart = getCart();
-        let checkItemInCart = cart.find(p => p.id === product._id && p.colors === product.colors);
-        if(checkItemInCart != undefined){
-            checkItemInCart.quantity += document.querySelector("#quantity").value;
-        }
+            product.quantity += quantity;
     }
 
     const btnSubmit = document.getElementById('addToCart');
