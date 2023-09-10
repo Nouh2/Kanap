@@ -5,12 +5,13 @@ const id = url.searchParams.get("id");
 //console.log(id);
 // construction du chemin qui mène aux éléments spécifique à chaque produit
 const apiURL = "http://localhost:3000/api/products/" + id;
+let product;
 //console.log(apiURL);
 // récupération des éléments des produits via l'api
 fetch(apiURL)
     .then((response) => response.json())
     .then(data => {
-    
+    product = data;
     const item = document.querySelector(".item");
     item.querySelector(".item__img").insertAdjacentHTML("afterbegin", `<img src="${data.imageUrl}" alt="Photographie d'un canapé ${data.name}">`);
     item.querySelector("#title").insertAdjacentHTML("afterbegin", data.name);
@@ -22,7 +23,48 @@ fetch(apiURL)
     
 
 })
+//Sauvegarder le panier le localstorage
+function saveCart(cart){
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
 
+    function getCart(){
+        let cart = localStorage.getItem("cart");
+        if(cart == null){
+            return [];
+        }else{
+            return JSON.parse(cart);
+        }
+    }
+//ajout de produit dans le panier
+    function addItemToCart (){
+        let cart = getCart();
+        let checkItemInCart = cart.find(p => p.id === product._id && p.colors === product.colors);
+        if(checkItemInCart != undefined){
+            changeQuantity;
+        }else{
+            cart.push({
+                id: product._id,
+                quantity: document.querySelector("#quantity").value,
+                colors: document.querySelector("#colors").value,
+            });
+        }
+        saveCart(cart);
+    }
+
+    function changeQuantity(product, quantity) {
+        let cart = getCart();
+        let checkItemInCart = cart.find(p => p.id === product._id && p.colors === product.colors);
+        if(checkItemInCart != undefined){
+            checkItemInCart.quantity += document.querySelector("#quantity").value;
+        }
+    }
+
+    const btnSubmit = document.getElementById('addToCart');
+    btnSubmit.addEventListener('click', addItemToCart)
+    console.log(btnSubmit);
+    
+        
 //cart = tableau avec l'id, la quantité, la couleur
 
     //const cart = [
@@ -64,28 +106,4 @@ fetch(apiURL)
     
 
     
-    function saveCart(cart){
-        localStorage.setItem("cart", JSON.stringify(cart));
-    }
-
-    function getCart(){
-        let cart = localStorage.getItem("cart");
-        if(cart == null){
-            return [];
-        }else{
-            return JSON.parse(cart);
-        }
-    }
-
-    function addItemToCart (product){
-        let cart = getCart();
-        let checkItemInCart = cart.find(p => p.id == product.id);
-        if(checkItemInCart != undefined){
-            checkItemInCart.quantity++
-        }else{
-            product.quantity = 1;
-            cart.push(product);
-        }
-        cart.push(product);
-        saveCart(cart);
-    }
+    
