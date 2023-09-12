@@ -46,9 +46,10 @@ function saveCart(cart){
         let checkItemInCart = cart.find(cartItem => cartItem.id == product._id && cartItem.color == selectedColor);
         if(checkItemInCart != undefined){
             let quantityItemInCart = checkItemInCart.quantity;
-            let quantityItemInCartNumber = Number.parseInt(quantityItemInCart);
-            let quantity = quantityItemInCartNumber += selectedQuantityNumber;
-            console.log(quantity);
+            let quantityItemInCartNumber = +quantityItemInCart;
+            checkItemInCart.quantity = parseInt(quantityItemInCartNumber, 10) + parseInt(selectedQuantityNumber, 10);
+            quantityItemInCartNumber += selectedQuantityNumber;
+            
             //changeQuantity(checkItemInCart, selectedQuantity);
         }else{
             cart.push({
