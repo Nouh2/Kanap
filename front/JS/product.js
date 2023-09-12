@@ -39,14 +39,22 @@ function saveCart(cart){
 //ajout de produit dans le panier
     function addItemToCart (){
         let cart = getCart();
-        let checkItemInCart = cart.find(p => p.id === product._id && p.colors === product.colors);
+        let selectedColor = document.querySelector("#colors").value;
+        let selectedQuantity = document.querySelector("#quantity").value;
+        let selectedQuantityNumber = Number(selectedQuantity);
+        
+        let checkItemInCart = cart.find(cartItem => cartItem.id == product._id && cartItem.color == selectedColor);
         if(checkItemInCart != undefined){
-            changeQuantity(checkItemInCart, document.querySelector("#quantity").value);
+            let quantityItemInCart = checkItemInCart.quantity;
+            let quantityItemInCartNumber = Number.parseInt(quantityItemInCart);
+            let quantity = quantityItemInCartNumber += selectedQuantityNumber;
+            console.log(quantity);
+            //changeQuantity(checkItemInCart, selectedQuantity);
         }else{
             cart.push({
                 id: product._id,
-                quantity: document.querySelector("#quantity").value,
-                colors: document.querySelector("#colors").value,
+                quantity: selectedQuantity,
+                color: selectedColor,
             });
         }
         saveCart(cart);
