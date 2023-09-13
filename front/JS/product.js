@@ -36,6 +36,7 @@ function saveCart(cart){
             return JSON.parse(cart);
         }
     }
+    
 //ajout de produit dans le panier
     function addItemToCart (){
         let cart = getCart();
@@ -67,48 +68,6 @@ function saveCart(cart){
 
     const btnSubmit = document.getElementById('addToCart');
     btnSubmit.addEventListener('click', addItemToCart)
-    console.log(btnSubmit);
+
     
         
-//cart = tableau avec l'id, la quantité, la couleur
-
-    //const cart = [
-        //{
-           // id: 1,
-            //color: red,
-            //quantity: 1,
-       // }
-    //]
-    //data en dur pour test
-   // const quantity = 3;
-    //const color = red;
-    
-     
-    //vérification du cart pour doublon
-    //const checkItemInCart = (id, color) => {
-
-        //récupération de la data du cart
-        //cart;
-        //if data isn't in the cart = true add item
-        //if(id = id.cart, color = color.cart){
-        //    return false;
-      //  }
-         //   return true;
-    //}
-    //console.log(checkItemInCart);
-
-    // listener de la soumission
-    //const addItemToCart = () => {
-
-        //récupération de l'id, de la colors et de la quantité
-        //eventlistener qui submit lors lorsque l'on clique sur le boutton
-        //if(checkItemInCart() = true) {
-          //  incrementitem();
-        //}
-
-    //}
-
-    
-
-    
-    

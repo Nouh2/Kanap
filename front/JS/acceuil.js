@@ -1,6 +1,7 @@
 const callApi = fetch ("http://localhost:3000/api/products/")
 callApi.then(response => response.json())
 .then(products => {
+    //console.log(products);
     for( const { name, _id, imageUrl, alttxt, description } of products ){
         // console.log(description);
         
