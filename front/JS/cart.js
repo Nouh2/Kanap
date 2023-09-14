@@ -12,7 +12,7 @@ for ( const{id, quantity, color} of cartArray){
     .then(data => {
        //console.log(data);
        for( const { name, _id, imageUrl, alttxt, description } of data ){
-        const Item = document.querySelector(document.getElementById('cart__items'));
+        const Item = document.getElementById('cart__items');
         
        } 
 
