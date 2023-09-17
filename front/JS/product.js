@@ -42,14 +42,10 @@ function saveCart(cart){
         let cart = getCart();
         let selectedColor = document.querySelector("#colors").value;
         let selectedQuantity = document.querySelector("#quantity").value;
-        let selectedQuantityNumber = Number(selectedQuantity);
         
-        let checkItemInCart = cart.find(cartItem => cartItem.id == product._id && cartItem.color == selectedColor);
+        let checkItemInCart = cart.find(cartItem => cartItem.id === product._id && cartItem.color === selectedColor);
         if(checkItemInCart != undefined){
-            let quantityItemInCart = checkItemInCart.quantity;
-            let quantityItemInCartNumber = +quantityItemInCart;
-            checkItemInCart.quantity = parseInt(quantityItemInCartNumber, 10) + parseInt(selectedQuantityNumber, 10);
-            quantityItemInCartNumber += selectedQuantityNumber;
+            checkItemInCart.quantity = parseInt(checkItemInCart.quantity, 10) + parseInt(selectedQuantity, 10);
             
             //changeQuantity(checkItemInCart, selectedQuantity);
         }else{
