@@ -3,15 +3,22 @@ let cart = window.localStorage.getItem("cart");
 let cartArray = JSON.parse(cart);
 console.log(cartArray);
 
-cartArray.forEach((product) => {
-    fetch("http://localhost:3000/api/products/" + product.id)
-    .then((response) => response.json())
-    .then((data) => {
-        
+    
+    function product(cartArray){
+        //
+        fetch("http://localhost:3000/api/products/" + cartArray.id)
+        .then((response) => response.json())
+        .then(function(apiArray){
+            createHTML(apiArray, cartArray);
+        })
+    }
+
+    function createHTML (apiArray, cartArray){
         const article = document.createElement("article");
         document.querySelector("#cart_items").appendChild(article);
         product.className = "cart_item";
         article.setAttribute("data-id", cartArray.id);
+        article.setAttribute("data-color", cartArray.color);
         
         const imgDiv = document.createElement("div");
         article.appendChild(imgDiv);
@@ -19,7 +26,7 @@ cartArray.forEach((product) => {
 
         const img =document.createElement("img");
         imgDiv.appendChild(img);
-        img.src = data.imageUrl
+        img.src = apiArray.imageUrl
 
         const contentDiv = document.createElement("div");
         article.appendChild(contentDiv);
@@ -31,7 +38,7 @@ cartArray.forEach((product) => {
 
         const h2 = document.createElement("h2");
         contentDescriptionDiv.appendChild(h2);
-        h2.innerHTML = data.name;
+        h2.innerHTML = apiArray.name;
 
         const color = document.createElement("p");
         contentDescriptionDiv.appendChild(color);
@@ -39,7 +46,7 @@ cartArray.forEach((product) => {
 
         const price = document.createElement("p");
         contentDescriptionDiv.appendChild(price);
-        price.innerHTML = data.price + "€";
+        price.innerHTML = apiArray.price + "€";
 
         const contentSettingsDiv = document.createElement("div");
         contentDiv.appendChild(contentSettingsDiv);
@@ -52,12 +59,12 @@ cartArray.forEach((product) => {
         let quantity = document.createElement("p");
         contentSettingsQuantityDiv.appendChild(quantity);
         quantity.innerHTML = "Qté :" + cartArray.quantity;
+    }
 
 
-       } 
+ 
 
-    )})
-
+   
 
 
 //for (const{id, quantity, color} of cartArray){
