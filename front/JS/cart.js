@@ -3,22 +3,21 @@ let cart = window.localStorage.getItem("cart");
 let cartArray = JSON.parse(cart);
 console.log(cartArray);
 
-    
-    function product(cartArray){
-        //
-        fetch("http://localhost:3000/api/products/" + cartArray.id)
-        .then((response) => response.json())
-        .then(function(apiArray){
-            createHTML(apiArray, cartArray);
-        })
-    }
-
-    function createHTML (apiArray, cartArray){
+    if (cartArray === null ){
+        const cartVideHTML = document.getElementById('cart__items');
+        cartVideHTML.innerHTML = "Votre panier est vide";
+    } else{
+    for (const element of cartArray){
+        console.log(element);
+        fetch('http://localhost:3000/api/products/')
+        .then(response => response.json())
+        .then(products => {
+            //console.log(products);
         const article = document.createElement("article");
-        document.querySelector("#cart_items").appendChild(article);
-        product.className = "cart_item";
-        article.setAttribute("data-id", cartArray.id);
-        article.setAttribute("data-color", cartArray.color);
+        document.querySelector("#cart__items").appendChild(article);
+        article.className = "cart_item";
+        article.setAttribute("data-id", element.id);
+        article.setAttribute("data-color", element.color);
         
         const imgDiv = document.createElement("div");
         article.appendChild(imgDiv);
@@ -26,7 +25,7 @@ console.log(cartArray);
 
         const img =document.createElement("img");
         imgDiv.appendChild(img);
-        img.src = apiArray.imageUrl
+        img.src = products.imageUrl
 
         const contentDiv = document.createElement("div");
         article.appendChild(contentDiv);
@@ -38,15 +37,15 @@ console.log(cartArray);
 
         const h2 = document.createElement("h2");
         contentDescriptionDiv.appendChild(h2);
-        h2.innerHTML = apiArray.name;
+        h2.innerHTML = products.name;
 
         const color = document.createElement("p");
         contentDescriptionDiv.appendChild(color);
-        color.innerHTML = cartArray.color;
+        color.innerHTML = element.color;
 
         const price = document.createElement("p");
         contentDescriptionDiv.appendChild(price);
-        price.innerHTML = apiArray.price + "€";
+        price.innerHTML = products.price + "€";
 
         const contentSettingsDiv = document.createElement("div");
         contentDiv.appendChild(contentSettingsDiv);
@@ -58,8 +57,9 @@ console.log(cartArray);
 
         let quantity = document.createElement("p");
         contentSettingsQuantityDiv.appendChild(quantity);
-        quantity.innerHTML = "Qté :" + cartArray.quantity;
-    }
+        quantity.innerHTML = "Qté :" + element.quantity;
+    })}}
+
 
 
  
