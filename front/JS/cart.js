@@ -59,9 +59,38 @@ let cartArray = JSON.parse(cart);
         contentSettingsQuantityDiv.appendChild(quantity);
         quantity.innerHTML = "Qté :" + element.quantity;
 
-        changeProductQantity();
+        let inputQuantity = document.createElement("input");
+        inputQuantity.classList.add("itemQuantity");
+        inputQuantity.type = "number";
+        inputQuantity.name = "itemQuantity";
+        inputQuantity.setAttribute("min", "1");
+        inputQuantity.setAttribute("max", "100");
+        inputQuantity.setAttribute("onkeypress","return event.charCode >= 48");
+        inputQuantity.setAttribute("value", element.quantity);
+        contentSettingsQuantityDiv.appendChild(inputQuantity);
+
+        let deleteButton = document.createElement("div");
+        deleteButton.classList.add("cart__item__content__settings__delete");
+        contentSettingsQuantityDiv.appendChild(deleteButton);
+
+  // Creation du paragraphe de suppression.
+        let deleteProduct = document.createElement("p");
+        deleteProduct.classList.add("deleteItem");
+        deleteProduct.textContent = "Supprimer";
+        deleteButton.appendChild(deleteProduct);
+
+
+
+        changeProductQantity(inputQuantity, element);
+        deleteProduct(deleteProduct, element);
     })}}
+
+    
 //change quantity grace à l'input qui permet de selectionner le produit que l'on veut modifier
+//chercher le produit 
+// modifier la quantité
+//actualiser le panier
+//realod le panier
 function changeProductQantity(input, product) {
     input.onchange = (event) => {
         const newquantity = event.target.value;
@@ -73,6 +102,16 @@ function changeProductQantity(input, product) {
     }
 }
 
+function deleteProduct(button, element) {
+    button.onclick = () => {
+        cart = cart.filter(article => article.id != element.id || article.couleur != element.couleur);
+
+
+        const cart = JSON.stringify(cart);
+        localStorage.setItem("cart", cart);
+
+    }
+  }
 
 //changer la quantité par rapport à l'id et a la color
 //{
