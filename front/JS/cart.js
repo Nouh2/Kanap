@@ -82,7 +82,7 @@ let cartArray = JSON.parse(cart);
 
 
         changeProductQantity(inputQuantity, element);
-        deleteProduct(deleteProduct, element);
+        fctdeleteProduct(deleteProduct, element);
     })}}
 
     
@@ -97,34 +97,44 @@ function changeProductQantity(input, product) {
         product.quantity = newquantity;
         event.target.previousElementSibling.textContent = "Qté :" + product.quantity;
 
-        const cart = JSON.stringify(cart);
-        localStorage.setItem("cart", cart);
+        const cartStorage = JSON.stringify(cartArray);
+        localStorage.setItem("cart", cartStorage);
     }
 }
 
-function deleteProduct(button, element) {
+function fctdeleteProduct(button, element) {
     button.onclick = () => {
-        cart = cart.filter(article => article.id != element.id || article.couleur != element.couleur);
+        cartArray = cartArray.filter(article => article.id != element.id || article.color != element.color);
 
 
-        const cart = JSON.stringify(cart);
-        localStorage.setItem("cart", cart);
+        const cartJSON = JSON.stringify(cartArray);
+        localStorage.setItem("cart", cartJSON);
+        location.reload();
 
     }
   }
 
-//changer la quantité par rapport à l'id et a la color
-//{
-    //récupération de la data id et color dans l'élément parent cart__item
-    //const cart_item = event.target.closest("cart__item")
-    //const id = cart_item.dataset.id
-    //console.log(id);
-    //const color = cart_item.dataset.color
-    // trouver le id et la color 
-    ////cart.find((element) => element.id === id && element.color === color ).quantity = event.target.value
-//}
-//console.log(changeProductQantity);
-
+//récupérer les données de l'utilisateur saisie dans les champs 
+const prenom = document.getElementById("firstName");
+const nom = document.getElementById("lastName");
+const adresse = document.getElementById("address");
+const ville = document.getElementById("city");
+const email = document.getElementById("email");
+//creer les regex pour les différents champs
+const regexEmail = new RegExp("[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+const regexNom = new RegExp("/^[a-zA-Z]+$/")
+const regexAdresse = new RegExp("^[A-zÀ-ú0-9 ,.'\-]+$")
+//intégrer les messages d'erreurs
+const prenomError = document.getElementById("firstNameErrorMsg");
+const nomError = document.getElementById("lastnameErrorMsg");
+const adresseError = document.getElementById("addressErrorMsg");
+const villeError = document.getElementById("cityErrorMsg");
+const emailError = document.getElementById("emailErrorMsg");
+//champs de validité
+//pour chaque champs : 
+//if regex true alors ok
+//else message d'erreur
+// créer un objet contact
    
 
 
