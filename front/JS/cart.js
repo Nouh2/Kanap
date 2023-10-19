@@ -3,6 +3,47 @@ let cart = window.localStorage.getItem("cart");
 let cartArray = JSON.parse(cart);
 //console.log(cartArray);
 
+
+//récupérer les données de l'utilisateur saisie dans les champs 
+const prenom = document.getElementById("firstName");
+const nom = document.getElementById("lastName");
+const adresse = document.getElementById("address");
+const ville = document.getElementById("city");
+const email = document.getElementById("email");
+//creer les regex pour les différents champs
+const regexEmail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i);
+const regexNom = new RegExp("^[a-zA-Z ,.'-]+$")
+const regexAdresse = new RegExp("^[A-zÀ-ú0-9 ,.'\-]+$")
+//intégrer les messages d'erreurs
+const prenomError = document.getElementById("firstNameErrorMsg");
+const nomError = document.getElementById("lastnameErrorMsg");
+const adresseError = document.getElementById("addressErrorMsg");
+const villeError = document.getElementById("cityErrorMsg");
+const emailError = document.getElementById("emailErrorMsg");
+
+
+// créer un objet contact
+const commande = {
+    contact : {
+        firstName : prenom.value,
+        lastName : nom.value,
+        address : adresse.value,
+        city : ville.value,
+        email : email.value,
+    },
+    
+}
+console.log(commande);
+   
+// créer un tableau de produits
+const products = [];
+// intégrer les id 
+cartArray.forEach(element => {
+    products.push(element.id);
+});
+console.log(products);
+
+
     if (cartArray === null ){
         const cartVideHTML = document.getElementById('cart__items');
         cartVideHTML.innerHTML = "Votre panier est vide";
@@ -114,27 +155,50 @@ function fctdeleteProduct(button, element) {
     }
   }
 
-//récupérer les données de l'utilisateur saisie dans les champs 
-const prenom = document.getElementById("firstName");
-const nom = document.getElementById("lastName");
-const adresse = document.getElementById("address");
-const ville = document.getElementById("city");
-const email = document.getElementById("email");
-//creer les regex pour les différents champs
-const regexEmail = new RegExp("[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
-const regexNom = new RegExp("/^[a-zA-Z]+$/")
-const regexAdresse = new RegExp("^[A-zÀ-ú0-9 ,.'\-]+$")
-//intégrer les messages d'erreurs
-const prenomError = document.getElementById("firstNameErrorMsg");
-const nomError = document.getElementById("lastnameErrorMsg");
-const adresseError = document.getElementById("addressErrorMsg");
-const villeError = document.getElementById("cityErrorMsg");
-const emailError = document.getElementById("emailErrorMsg");
+
 //champs de validité
 //pour chaque champs : 
 //if regex true alors ok
 //else message d'erreur
-// créer un objet contact
-   
+prenom.onchange = (e) => {
+    if (regexNom.test(prenom.value)){
+        prenomError.innerHTML = "Valide";
+    }
+    else{
+        prenomError.innerHTML = "Champ invalide";
+    }
+};
+
+nom.onchange = (e) => {
+    if (regexNom.test(nom.value)){
+      nomError.innerHTML = "Valide";
+    } else {
+      nomError.innerHTML = "Champ invalide";
+    }
+  };
+
+  adresse.onchange= (e) => {
+    if (regexAdresse.test(adresse.value)){
+      adresseError.innerHTML = "Valide";
+    } else {
+      adresse.innerHTML = "Champ invalide";
+    }
+  };
+
+  ville.onchange= (e) => {
+    if (regexNom.test(ville.value)){
+      villeError.innerHTML = "Valide";
+    } else {
+      villeError.innerHTML = "Champ invalide";
+    }
+  };
+
+  email.onchange= (e) => {
+    if (regexEmail.test(email.value)){
+      emailError.innerHTML = "Valide";
+    } else {
+      emailError.innerHTML = "Champ invalide";
+    }
+};
 
 
