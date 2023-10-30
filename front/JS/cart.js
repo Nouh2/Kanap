@@ -122,6 +122,7 @@ function changeProductQantity(input, product) {
 
         const cartStorage = JSON.stringify(cartArray);
         localStorage.setItem("cart", cartStorage);
+        calculateTotalCart();
     }
 }
 
@@ -133,7 +134,7 @@ function fctdeleteProduct(button, element) {
         const cartJSON = JSON.stringify(cartArray);
         localStorage.setItem("cart", cartJSON);
         location.reload();
-
+        calculateTotalCart();
     }
   }
 
@@ -173,23 +174,27 @@ for(const {field, rule} of rules){
 };
 
 // créer un objet contact
-const contact = {
+const getContact = () => {
+  return{
         firstName :  prenom.value,
         lastName : nom.value,
         address : adresse.value,
         city : ville.value,
         email : email.value,
-    };    
+    }
+}   
 // créer un tableau de produits
 const products = [];
 // intégrer les id 
-for(let element of cartArray) {
+
+  
+
+const order = JSON.stringify({...getContact(), products})
+async function sendOrder(order) {
+
+  for(let element of cartArray) {
   products.push(element.id);
 }
-  
-const order = JSON.stringify({contact, products})
-sendOrder(order)
-async function sendOrder(order) {
   let response = await fetch("http://localhost:3000/api/products/order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -210,8 +215,13 @@ async function sendOrder(order) {
     window.location.href = `./confirmation.html?orderId=${result.orderId}`;
   }
 }
+sendOrder(order)
 
-
+const fetchApi = async (id) => {
+  const response = await fetch('http://localhost:3000/api/products/' + id)
+  const data = await response.json();
+  return data;
+}
 function calculateTotalCart () {
 
   let totalPrice = 0;
@@ -221,10 +231,10 @@ function calculateTotalCart () {
   for (element of cartArray) {
     fetch('http://localhost:3000/api/products/' + element.id)
     .then(response => response.json())
-    .then(products => {
+    .then(product => {
     // Additionner/Multiplier les résultats
-    totalPrice += parseInt(products.price) * parseInt(element.quantity);
-    totalQuantity += parseInt(element.quantity);
+    totalPrice += parseInt(product.price, 10) * parseInt(element.quantity, 10);
+    totalQuantity += parseInt(element.quantity, 10);
 
   
 
@@ -235,6 +245,7 @@ function calculateTotalCart () {
 })}}
 
 calculateTotalCart();
+
 
 
 
