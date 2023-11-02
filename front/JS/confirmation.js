@@ -1,3 +1,4 @@
-const newLocal = new URL(window.location.href);
-const orderId = newLocal.searchParams.get(`orderId`);
-const confirm = (document.querySelector("#orderId").textContent = orderId);
+const order = document.getElementById("orderId");
+    order.innerText = localStorage.getItem("orderId");
+    console.log(localStorage.getItem("orderId"))
+    localStorage.clear();
