@@ -41,7 +41,7 @@ let calculateTotalCart = () => {
   let totalPrice = 0;
   let totalQuantity = 0;
 
-  for (product of cartArray){
+  for (const product of cartArray){
     fetchApi(product.id)
     .then(data => {
       totalPrice += parseInt(data.price, 10) * parseInt(product.quantity, 10);
@@ -110,7 +110,7 @@ if (cartArray === null ){
   const cartVideHTML = document.getElementById('cart__items');
   cartVideHTML.innerHTML = "Votre panier est vide";
 } else {
-  for (product of cartArray){
+  for (const product of cartArray){
     fetchApi(product.id)
     .then(data => {
         const article = document.createElement("article");
@@ -193,7 +193,7 @@ let orderComplete = () => {
 
   const btnSubmit = document.getElementById("order");
 
-  btnSubmit.addEventListener("click", (event) => {
+  btnSubmit.addEventListener("click", () => {
   
     const prenom = document.getElementById("firstName");
     const nom = document.getElementById("lastName");
@@ -208,9 +208,9 @@ let orderComplete = () => {
   const arrayProducts = [];
 
   for (let i =0; i <cartArray.length; i++){
-      products.push(cartArray[i].id);
+      arrayProducts.push(cartArray[i].id);
   }
-  console.log(products);
+  //console.log(products);
 
 const order = {
     contact : {
@@ -222,7 +222,7 @@ const order = {
     },
     products : arrayProducts,
   }
-  
+  console.log(order);
   const method = {
     method: 'POST',
     body: JSON.stringify(order),
@@ -234,7 +234,7 @@ const order = {
 
   fetch("http://localhost:3000/api/products/order", method)
   .then((response) => response.json())
-  .then((data)=>{
+  .then((data) => {
     console.log(data);
     localStorage.clear();
     localStorage.setItem("orderId", data.orderId);
@@ -244,4 +244,6 @@ const order = {
 
   })}
 
-  orderComplete();
+  
+  const btnSubmit = document.getElementById("order");
+  btnSubmit.addEventListener('click', orderComplete() );
