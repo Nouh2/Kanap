@@ -27,7 +27,7 @@ let changeProductQantity = (input, product) => {
 
 let functionDeleteProduct = (button, product) => {
   button.onclick = () => {
-    cartArray = cartArray.filter(article => article.id != product.id || article.color != product.color);
+    cartArray = cartArray.filter(article => article.id != product.id && article.color != product.color);
 
 
     const cartJSON = JSON.stringify(cartArray);
@@ -189,11 +189,9 @@ for(const {field, rule} of rules){
   field.addEventListener('change', (e) => displayResult (e.target, rule.test(e.target.value)))
 };
 
-let orderComplete = () => {
+let orderComplete = (event) => {
 
-  const btnSubmit = document.getElementById("order");
-
-  btnSubmit.addEventListener("click", () => {
+  event.preventDefault()
   
     const prenom = document.getElementById("firstName");
     const nom = document.getElementById("lastName");
@@ -223,6 +221,10 @@ const order = {
     products : arrayProducts,
   }
   console.log(order);
+if (order.contact === null){
+  const cartForms = document.querySelector("cart__order__form__question");
+  cartForms.innerHTML = "Veuillez remplir le formualaire";
+}else{
   const method = {
     method: 'POST',
     body: JSON.stringify(order),
@@ -236,14 +238,14 @@ const order = {
   .then((response) => response.json())
   .then((data) => {
     console.log(data);
-    localStorage.clear();
+    localStorage.removeItem('cart');
     localStorage.setItem("orderId", data.orderId);
     document.location.href = "confirmation.html";
   })
 
 
-  })}
+  }}
 
   
   const btnSubmit = document.getElementById("order");
-  btnSubmit.addEventListener('click', orderComplete() );
+  btnSubmit.addEventListener('click', orderComplete );

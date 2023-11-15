@@ -44,8 +44,9 @@ function saveCart(cart){
         let selectedQuantity = document.querySelector("#quantity").value;
         
         let checkItemInCart = cart.find(cartItem => cartItem.id === product._id && cartItem.color === selectedColor);
-        if (selectedColor === undefined){
-        
+        if (selectedColor === null || selectedQuantity === 0){
+        const selectContent = document.querySelector("item__content__settings");
+        selectContent.innerHTML = 'Veuillez choisir une quantité ou une couleur';
         }else{
         if(checkItemInCart != undefined){
             checkItemInCart.quantity = parseInt(checkItemInCart.quantity, 10) + parseInt(selectedQuantity, 10);
