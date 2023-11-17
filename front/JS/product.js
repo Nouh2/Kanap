@@ -41,10 +41,10 @@ function saveCart(cart){
     function addItemToCart (){
         let cart = getCart();
         let selectedColor = document.querySelector("#colors").value;
-        let selectedQuantity = document.querySelector("#quantity").value;
+        let selectedQuantity = parseInt(document.querySelector("#quantity").value, 10);
         
         let checkItemInCart = cart.find(cartItem => cartItem.id === product._id && cartItem.color === selectedColor);
-        if (selectedColor === null || selectedQuantity === 0){
+        if (selectedColor === "" || selectedQuantity === 0){
         const selectContent = document.querySelector("item__content__settings");
         selectContent.innerHTML = 'Veuillez choisir une quantité ou une couleur';
         }else{

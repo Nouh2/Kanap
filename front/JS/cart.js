@@ -220,8 +220,12 @@ const order = {
     },
     products : arrayProducts,
   }
-  console.log(order);
-if (order.contact === null){
+  //console.log(order);
+  const contactString = JSON.stringify(order.contact);
+  //const contactArray = Object.entries(order.contact);
+  debugger;
+if (contactString === ""){
+  debugger;
   const cartForms = document.querySelector("cart__order__form__question");
   cartForms.innerHTML = "Veuillez remplir le formualaire";
 }else{
