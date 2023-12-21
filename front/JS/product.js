@@ -2,11 +2,11 @@
 const str = window.location.href;
 const url = new URL(str);
 const id = url.searchParams.get("id");
-//console.log(id);
+
 // construction du chemin qui mène aux éléments spécifique à chaque produit
-const apiURL = "http://localhost:3000/api/products/" + id;
+const apiURL = `http://localhost:3000/api/products/${id}`;
 let product;
-//console.log(apiURL);
+
 // récupération des éléments des produits via l'api
 fetch(apiURL)
   .then((response) => response.json())
@@ -60,29 +60,43 @@ function addItemToCart() {
     (cartItem) =>
       cartItem.id === product._id && cartItem.color === selectedColor
   );
-  if (selectedColor === "" || selectedQuantity === 0) {
-    const selectContent = document.querySelector("item__content__settings");
-    selectContent.innerHTML = "Veuillez choisir une quantité ou une couleur";
-  } else {
-    if (checkItemInCart != undefined) {
-      checkItemInCart.quantity =
-        parseInt(checkItemInCart.quantity, 10) + parseInt(selectedQuantity, 10);
 
-      //changeQuantity(checkItemInCart, selectedQuantity);
+  if (selectedColor === "" || selectedQuantity === 0) {
+    const selectContent = document.querySelector(".item__content__settings");
+    selectContent.insertAdjacentHTML(
+      "beforebegin",
+      "Veuillez choisir une quantité et/ou une couleur"
+    );
+  } else {
+    if (selectedQuantity.charCode > 100 || selectedQuantity.charCode < 1) {
+      const selectQuantity = document.querySelector(
+        ".item__content__settings__quantity"
+      );
+      selectQuantity.insertAdjacentHTML(
+        "beforebegin",
+        "Veuillez séléctionner une quantité correct"
+      );
     } else {
-      cart.push({
-        id: product._id,
-        quantity: selectedQuantity,
-        color: selectedColor,
-      });
+      if (checkItemInCart != undefined) {
+        checkItemInCart.quantity =
+          parseInt(checkItemInCart.quantity, 10) +
+          parseInt(selectedQuantity, 10);
+      } else {
+        cart.push({
+          id: product._id,
+          quantity: selectedQuantity,
+          color: selectedColor,
+        });
+      }
+      saveCart(cart);
     }
-    saveCart(cart);
   }
 }
 
+//modification de la quantité
 function changeQuantity(product, quantity) {
   product.quantity += quantity;
 }
-
+//push du product dans le panier
 const btnSubmit = document.getElementById("addToCart");
 btnSubmit.addEventListener("click", addItemToCart);

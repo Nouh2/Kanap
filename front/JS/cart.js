@@ -1,15 +1,16 @@
+//initialisation du cart
 let cart = window.localStorage.getItem("cart");
 let cartArray = JSON.parse(cart);
 console.log(cartArray);
 
 //ALL FUNCTION
-
+//appel de l'api
 let fetchApi = async (id) => {
-  let response = await fetch("http://localhost:3000/api/products/" + id);
+  let response = await fetch(`http://localhost:3000/api/products/${id}`);
   let data = await response.json();
   return data;
 };
-
+//modification de la quantité
 let changeProductQantity = (input, product) => {
   input.onchange = (event) => {
     const newquantity = event.target.value;
@@ -22,7 +23,7 @@ let changeProductQantity = (input, product) => {
     calculateTotalCart();
   };
 };
-
+//suppression des produits
 let functionDeleteProduct = (button, product) => {
   button.onclick = () => {
     cartArray = cartArray.filter(
@@ -35,7 +36,7 @@ let functionDeleteProduct = (button, product) => {
     calculateTotalCart();
   };
 };
-
+//Calcul du prix total du cart
 let calculateTotalCart = () => {
   let totalPrice = 0;
   let totalQuantity = 0;
@@ -50,7 +51,7 @@ let calculateTotalCart = () => {
     });
   }
 };
-
+//attribution de la validité ou non des champs du form
 let fieldvalid = (el) => (el.innerHTML = "Valide");
 
 let fieldinvalid = (el) => (el.innerHTML = "Champ invalide");
@@ -74,12 +75,7 @@ const regexEmail = new RegExp(
 const regexNom = new RegExp("^[a-zA-Z ,.'-]+$");
 const regexAdresse = new RegExp("^[A-zÀ-ú0-9 ,.'-]+$");
 
-const prenomError = document.getElementById("firstNameErrorMsg");
-const nomError = document.getElementById("lastNameErrorMsg");
-const adresseError = document.getElementById("addressErrorMsg");
-const villeError = document.getElementById("cityErrorMsg");
-const emailError = document.getElementById("emailErrorMsg");
-
+//regles pour integrer la validité ou non du form
 const rules = [
   {
     field: prenom,
@@ -102,7 +98,7 @@ const rules = [
     rule: regexEmail,
   },
 ];
-
+//création du panier
 if (cartArray === null) {
   const cartVideHTML = document.getElementById("cart__items");
   cartVideHTML.innerHTML = "Votre panier est vide";
@@ -181,13 +177,13 @@ if (cartArray === null) {
     });
   }
 }
-
+//liaison entre les rules et les fiels valide/invalide
 for (const { field, rule } of rules) {
   field.addEventListener("change", (e) =>
     displayResult(e.target, rule.test(e.target.value))
   );
 }
-
+// vérification et récupération des fields du form
 let orderComplete = (event) => {
   event.preventDefault();
 
@@ -201,7 +197,6 @@ let orderComplete = (event) => {
   for (let i = 0; i < cartArray.length; i++) {
     arrayProducts.push(cartArray[i].id);
   }
-  //console.log(products);
 
   const order = {
     contact: {
@@ -213,11 +208,8 @@ let orderComplete = (event) => {
     },
     products: arrayProducts,
   };
-  console.log(arrayProducts);
-  //console.log(order);
-  //const contactString = JSON.stringify(order.contact);
-  //const contactArray = Object.entries(order.contact);
-  debugger;
+
+  //test pour empecher de commander si tous les éléments ne sont pas présent
   if (
     (order.contact.firstName === "" &&
       order.contact.lastName === "" &&
@@ -226,9 +218,11 @@ let orderComplete = (event) => {
       order.contact.email === "") ||
     order.products === false
   ) {
-    //debugger;
-    const cartForms = document.querySelector("cart__order__form__question");
-    cartForms.innerHTML = "Veuillez remplir le formualaire";
+    const cartForms = document.querySelector(".cart__order");
+    cartForms.insertAdjacentHTML(
+      "beforebegin",
+      "Veuillez remplir le formulaire"
+    );
   } else {
     const method = {
       method: "POST",
@@ -238,7 +232,7 @@ let orderComplete = (event) => {
         "Content-Type": "application/json",
       },
     };
-
+    //envoie de tous le cart pour valider la commande
     fetch("http://localhost:3000/api/products/order", method)
       .then((response) => response.json())
       .then((data) => {
