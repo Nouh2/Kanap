@@ -68,7 +68,12 @@ function addItemToCart() {
       "Veuillez choisir une quantité et/ou une couleur"
     );
   } else {
-    if (selectedQuantity > 100 || selectedQuantity < 1) {
+    if (
+      selectedQuantity > 100 ||
+      selectedQuantity < 1 ||
+      selectedQuantity === null ||
+      selectedQuantity === NaN
+    ) {
       const selectQuantity = document.querySelector(
         ".item__content__settings__quantity"
       );
