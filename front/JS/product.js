@@ -40,7 +40,7 @@ function saveCart(cart) {
 
 function getCart() {
   let cart = localStorage.getItem("cart");
-  if (cart == null) {
+  if (cart === null) {
     return [];
   } else {
     return JSON.parse(cart);
@@ -60,7 +60,7 @@ function addItemToCart() {
     (cartItem) =>
       cartItem.id === product._id && cartItem.color === selectedColor
   );
-
+  //test obliger l'utilisateur à choisir une quantité et une couleur
   if (selectedColor === "" || selectedQuantity === 0) {
     const selectContent = document.querySelector(".item__content__settings");
     selectContent.insertAdjacentHTML(
@@ -68,7 +68,7 @@ function addItemToCart() {
       "Veuillez choisir une quantité et/ou une couleur"
     );
   } else {
-    if (selectedQuantity.charCode > 100 || selectedQuantity.charCode < 1) {
+    if (selectedQuantity > 100 || selectedQuantity < 1) {
       const selectQuantity = document.querySelector(
         ".item__content__settings__quantity"
       );
