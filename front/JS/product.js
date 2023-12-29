@@ -71,8 +71,7 @@ function addItemToCart() {
     if (
       selectedQuantity > 100 ||
       selectedQuantity < 1 ||
-      selectedQuantity === null ||
-      selectedQuantity === NaN
+      isNaN(selectedQuantity)
     ) {
       const selectQuantity = document.querySelector(
         ".item__content__settings__quantity"
